@@ -29,8 +29,9 @@ SECRET_KEY = 'django-insecure-=1s5jlop2tixxrx$r0rq5!mk!6@(pfs!&1^z-x)@3iu@w@10c-
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1'
+    # 'localhost',
+    '127.0.0.1',
+    
 ]
 
 
@@ -133,3 +134,17 @@ STATICFILES_DIRS = [STATIC_DIR,]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+}

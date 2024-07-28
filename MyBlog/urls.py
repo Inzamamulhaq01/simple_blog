@@ -24,5 +24,7 @@ appname = 'MyBlog'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='index'),
-    path('detail/',views.detail,name='detail')
+    path('post/<str:slug>',views.detail, name='detail'),
+    path('contact/', views.contact ,name='contact'),
+    path('about/',views.aboutus,name='about'),
 ]

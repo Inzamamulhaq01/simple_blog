@@ -24,5 +24,5 @@ handler404 = 'blog.views.page_not'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('blog/',include('MyBlog.urls'))
+    path('',include('MyBlog.urls'))
 ]

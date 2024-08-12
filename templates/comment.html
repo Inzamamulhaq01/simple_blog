@@ -4,7 +4,7 @@
     <div class="container-fluid ">
         <div class="d-flex justify-content-center mt-5">
             <div class="d-flex gap-3 flex-column">
-                <h3>Contact Form</h3>
+                <h3>Comments</h3>
 
                 <!-- Error checking in forms -->
                 
@@ -20,6 +20,7 @@
                     {% endfor %}
              
                 <!-- Success Message for Form -->
+
                     {% if SUCCESS %}
                         <div class="alert alert-success" role="alert">
                             {{SUCCESS}}
@@ -44,27 +45,29 @@
                         <label for="message" class="form-label">Message</label>
                         <textarea class="form-control" id="message" name="message" value="{{message}} "rows="4" ></textarea>
                     </div>
+                    <input type="hidden" name="next" value="{{ request.path }}">
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit"  class="btn btn-primary">Comment Here</button>
+                     
+                        
                     </div>
                 </form>
             </div>
         </div>
         
     </div>
+
+    <style>
+        .btn-primary:hover {
+                  font-weight: bold;  
+                    background-color: white;
+                    color: #0000FF;
+                    border-color: #0000FF; /* Optional: change the border color too */
+                   
+                }
+        </style>
+    
 {% endblock content %}
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var messageElement = document.querySelector('.messages');
-        if (messageElement) {
-            // Show the message
-            messageElement.style.display = 'block';
-            
-            // Redirect after 3 seconds
-            setTimeout(function() {
-                window.location.href = "{% url 'index' %}";
-            }, 3000);
-        }
-    });
-</script>
+
+

@@ -26,11 +26,12 @@ STATIC_DIR=os.path.join(BASE2_DIR,'static')
 SECRET_KEY = 'django-insecure-=1s5jlop2tixxrx$r0rq5!mk!6@(pfs!&1^z-x)@3iu@w@10c-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     # 'localhost',
     '127.0.0.1',
+    '*'
     
 ]
 
@@ -57,6 +58,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+)
 ROOT_URLCONF = 'blog.urls'
 
 TEMPLATES = [

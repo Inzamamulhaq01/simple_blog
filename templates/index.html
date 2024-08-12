@@ -16,11 +16,20 @@
           <div class="card-body">
             <h2>{{post.title}}</h2>
             <p>{{post.content | truncatechars:100}}</p>
-            <a href="{% url 'detail' slug=post.slug %}" class="btn btn-primary">Read More</a>
+            <a href="{% url 'detail' slug=post.slug %}" class="btn btn-primary" ">Read More</a>
           </div>
         </div>
       </div>
       {% endfor %}
+      <style>
+        .btn-primary:hover {
+          font-weight: bold;  
+            background-color: white;
+            color: #0000FF;
+            border-color: #0000FF; /* Optional: change the border color too */
+            border-radius: 10px;
+        }
+    </style>
       
       <div class="col-12 my-3">
         {% if page.has_other_pages %}

@@ -1,1 +1,1 @@
-from .post import Command 
+from .post import Command as posts

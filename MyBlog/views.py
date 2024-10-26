@@ -1,5 +1,4 @@
 from django.contrib import messages
-
 from django.contrib.auth.models import User
 from sre_constants import SUCCESS
 from django.contrib.auth import authenticate,login as login_auth,logout
@@ -13,36 +12,46 @@ import logging
 # Create your views here.
 
 def index(request):
-    posts = Post.objects.all()
-    # Paginator used to Show no of posts/page
-    paginator = Paginator(posts,6)
-    # recieve the current page number from url using get 
-    page_no = request.GET.get('page')
-    # based on the page recieved (ex 1) we get the page posts to the index html
-    page = paginator.get_page(page_no)
-    
-    
-    
-    return render(request,'index.html',{'page':page})
+    # check user login or not 
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        posts = Post.objects.all()
+        # Paginator used to Show no of posts/page
+        paginator = Paginator(posts,6)
+        # recieve the current page number from url using get 
+        page_no = request.GET.get('page')
+        # based on the page recieved (ex 1) we get the page posts to the index html
+        page = paginator.get_page(page_no)
+        return render(request,'index.html',{'page':page})
 
 
 
 
 def detail(request,slug):
+    # check user login or not 
+    if not request.user.is_authenticated:
+        return redirect('login')
     # getting post by post id using model class
+    
     try:
         post = Post.objects.get(slug=slug)
         other_posts = Post.objects.filter().exclude(pk=post.id)
-    
+        comments = Comment.objects.filter(post_id=post.id)
+       
     except Post.DoesNotExist:
         raise Http404("Post Does Not Exist!")
         
     
-    return render(request,'detail.html',{'post':post , 'other_posts':other_posts})
+    return render(request,'detail.html',{'post':post , 'other_posts':other_posts,'comments':comments})
 
 
 
 def contact(request):
+    # check user login or not 
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
     if request.method == 'POST':
         form = Contactform(request.POST)
         
@@ -67,6 +76,10 @@ def contact(request):
     return render(request,'contact.html')
 
 def aboutus(request):
+    # check user login or not 
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
     # about content is object 
     about_content = about.objects.first().content
     # logger = logging.getLogger("test")
@@ -130,7 +143,7 @@ def signup(request):
                 new_user.save()  # Save the user to the database
                 
             
-                
+                messages.success(request,f'Account Successfully created for {user}')
                 return redirect('login')
             else:
                
@@ -141,6 +154,11 @@ def signup(request):
     return render(request,'signup.html',context)
 
 def commentview(request,slug):
+    # check user login or not 
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    
     if request.method == 'POST':
         form = CommentForm(request.POST)
         
@@ -151,7 +169,7 @@ def commentview(request,slug):
         
         
         if form.is_valid():    
-            SUCCESS = 'Your Post Has Sent!'
+            
     
         # Create a new Comment instance with the cleaned data from the form
             new_comment = Comment(

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from nt import environ
 from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,22 +19,20 @@ BASE2_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR=os.path.join(BASE2_DIR,'templates')
 STATIC_DIR=os.path.join(BASE2_DIR,'static')
 
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=1s5jlop2tixxrx$r0rq5!mk!6@(pfs!&1^z-x)@3iu@w@10c-'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    # 'localhost',
-    '127.0.0.1',
-    '*'
-    
-]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -50,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -89,16 +89,28 @@ WSGI_APPLICATION = 'blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {                        # new db for mysql
+#         "ENGINE": 'django.db.backends.mysql',
+#         "NAME": "simple_blog",
+#         "USER": "root",
+#         "PASSWORD": "root",
+#         "HOST": "localhost",
+#         "PORT": "3306",
+#     }
+# }
+
+
 DATABASES = {
-    "default": {                        # new db for mysql
-        "ENGINE": 'django.db.backends.mysql',
-        "NAME": "simple_blog",
-        "USER": "root",
-        "PASSWORD": "root",
-        "HOST": "localhost",
-        "PORT": "3306",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
+
+
 
 
 # Password validation
@@ -156,3 +168,10 @@ LOGGING = {
         "level": "DEBUG",
     },
 }
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [STATIC_DIR,]
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

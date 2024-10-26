@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     
+
+    
+
+
+
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <style>
@@ -39,7 +44,15 @@
         </div>
         
         <div id="form-div" autocomplete="off">
+            
             <div id="form-container">
+                <div class="col-md-8 mt-4">
+                    {% if messages%} 
+                      {% for message in messages %}
+                          <div style="color:green;">{{ message }}</div>
+                      {% endfor %} 
+                    {% endif %}
+                </div>
                 <h2>Sign in to Blogs</h2>
                 <span>
                     <img src="{% static '/images/google.png' %}" alt="">
